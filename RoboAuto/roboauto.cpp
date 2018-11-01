@@ -9,14 +9,14 @@ void servoInit() {
   servo.attach(SERVO_PIN);
 }
 
-void linieInit() {
+void initLinienSensor() {
 // für den Linienfolger
   pinMode(LINIE_LED_LINKS,INPUT);
   pinMode(LINIE_LED_MITTE,INPUT);
   pinMode(LINIE_LED_RECHTS,INPUT);
 }
 
-void initUltraschall(){ 
+void initUltraschallSensor(){ 
   // für das Ultraschallmodul
   pinMode(ULTRASCHALL_ECHO_PIN,INPUT);
   pinMode(ULTRASCHALL_TRIGGER_PIN,OUTPUT);
@@ -101,8 +101,8 @@ void linksBlockieren() {
 }
 
 void rechtsBlockieren() {
-  digitalWrite(RICHTUNG_RAEDER_LINKS_1, HIGH);
-  digitalWrite(RICHTUNG_RAEDER_LINKS_2, HIGH);   
+  digitalWrite(RICHTUNG_RAEDER_RECHTS_1, HIGH);
+  digitalWrite(RICHTUNG_RAEDER_RECHTS_2, HIGH);   
 }
 
 void blockieren() {
@@ -139,31 +139,47 @@ void dreheVorwaerts(){
 }
 
 
-void fahreVorwaerts(int geschwindigkeit, int dauer){
+void fahreVorwaerts(int gesw, int dauer){
   dreheVorwaerts();
-  geschwindigkeit(geschwindigkeit);
+  geschwindigkeit(gesw);
   delay(dauer);
   stop();
 }
 
-void fahreRueckwaerts(int geschwindigkeit, int dauer){
+void fahreRueckwaerts(int gesw, int dauer){
   dreheRueckwaerts();
-  geschwindigkeit(geschwindigkeit);
+  geschwindigkeit(gesw);
   delay(dauer);
   stop();
 }
 
 // TODO: Kurven testen
-void fahreLinkskurve(int geschwindigkeit,int dauer){
+void fahreLinkskurve(int gesw, int dauer){
   dreheVorwaerts();
-  geschwindigkeit(geschwindigkeit * KURVE_INNEN_GESCHWINDIGKEITS_FAKTOR, geschwindigkeit)
+  geschwindigkeit(max(80,(int)gesw * KURVE_INNEN_GESCHWINDIGKEITS_FAKTOR), gesw);
   delay(dauer);
   stop();
 }
 
-void fahreRechtskurve(int dauer){
+void fahreRechtskurve(int gesw, int dauer){
   dreheVorwaerts();
-  geschwindigkeit(geschwindigkeit, geschwindigkeit * KURVE_INNEN_GESCHWINDIGKEITS_FAKTOR)
+  geschwindigkeit(gesw, max(80, (int)gesw * KURVE_INNEN_GESCHWINDIGKEITS_FAKTOR));
+  delay(dauer);
+  stop();
+}
+
+void aufDerStelleRechts(int gesw, int dauer){
+  dreheRechtsVorwaerts();
+  dreheLinksRueckwaerts();
+  geschwindigkeit(gesw);
+  delay(dauer);
+  stop();
+}
+
+void aufDerStelleLinks(int gesw, int dauer){
+  dreheRechtsVorwaerts();
+  dreheLinksRueckwaerts();
+  geschwindigkeit(gesw);
   delay(dauer);
   stop();
 }

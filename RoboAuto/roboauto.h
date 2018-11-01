@@ -1,6 +1,8 @@
 #ifndef ROBO_AUTO_h
 #define ROBO_AUTO_h
 
+// Version 1.0
+
 #include "Servo.h"
 
 #define SERVO_PIN 3
@@ -12,8 +14,11 @@
 #define LINIE_LED_LINKS  2
 #define LINIE_LED_MITTE  4
 #define LINIE_LED_RECHTS 10
-#define DUNKEL   0
-#define HELL     1
+
+// Liniensensor Helligkeitswerte
+#define DUNKEL		1
+#define HELL		0
+
 
 #define IR_FERNBEDIENUNG_PIN    12
 
@@ -49,9 +54,6 @@
 // Schallgeschwindigkeit: 334 m/s => 0.0334 cm/µs
 #define SCHALLGESCHWINDIGKEIT_IN_CM_PER_US   0.0334 
 
-// Liniensensor Helligkeitswerte
-#define DUNKEL		1
-#define HELL		0
 
 #define KURVE_INNEN_GESCHWINDIGKEITS_FAKTOR .2
 
@@ -69,13 +71,13 @@ int servoNachRechts();
 void servoWarteBisBewegt();
 
 // IR Linien LEDS
-void linieInit();
+void initLinienSensor();
 int linieLinks(); 
 int linieMitte(); 
 int linieRechts();
 
 // Ultraschall
-void initUltraschall();
+void initUltraschallSensor();
 int ultraschallAbstandCM();
 
 // Motoren
@@ -104,8 +106,11 @@ void dreheVorwaerts();
 
 
 // Bequemlichkeitsfunktionen
-void fahreVorwaerts(int geschwindigkeit, int dauer);
-void fahreRueckwaerts(int geschwindigkeit, int dauer);
-void fahreLinkskurve(int geschwindigkeit, int dauer);
-void fahreRechtskurve(int geschwindigkeit, int dauer);
+void fahreVorwaerts(int gesw, int dauer);
+void fahreRueckwaerts(int gesw, int dauer);
+void fahreLinkskurve(int gesw, int dauer);
+void fahreRechtskurve(int gesw, int dauer);
+
+void aufDerStelleRechts(int gesw, int dauer);
+void aufDerStelleLinks(int gesw, int dauer);
 #endif
